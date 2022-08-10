@@ -1,7 +1,10 @@
 Step # 1
+Create account in Authorize.net and generate Login_Id and Transaction_Key.
+
+Step # 2
 .env File
-MERCHANT_LOGIN_ID=8Nkj6mCjH6x
-MERCHANT_TRANSACTION_KEY=4yM6683zrwrK6rLs
+MERCHANT_LOGIN_ID=Enter Login ID
+MERCHANT_TRANSACTION_KEY=Enter TRANSACTION KEY
 
 Step # 2
 Install Authorize.net package via composer
@@ -15,4 +18,5 @@ Create controller
 Step # 4
 Create Table
 
-Step #
+Step # 5
+create view

@@ -20,9 +20,9 @@ Step # 4
 Add in config->services.php
 return[
     'google'=>[
-    'client_id'=>'613795462269-4u9ek0cl12g8o21n8v2i08m10ekmfftu.apps.googleusercontent.com',
-    'client_secret'=>'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',
-    'redirect' => 'http://127.0.0.1:8000/google/callback'
+    'client_id'=>'Enter your clint id',
+    'client_secret'=>'Enter your clint secret',
+    'redirect' => 'Enter your callback url'
     ],
 ]
 
