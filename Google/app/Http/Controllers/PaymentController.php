@@ -147,4 +147,8 @@ class PaymentController extends Controller
         $order=AuthPaymentModel::where('auth_id',Auth::user()->id)->get();
         return view('myorders',compact('order'));
     }
+    public function chase_page()
+    {
+        return'No Data Fount';
+    }
 }

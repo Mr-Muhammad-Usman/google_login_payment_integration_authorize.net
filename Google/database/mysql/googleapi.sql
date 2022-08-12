@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2022 at 02:22 PM
+-- Generation Time: Aug 12, 2022 at 04:57 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -128,11 +128,9 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `google_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -143,8 +141,34 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `google_id`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'World Best Developer', 'bestsdevelopers@gmail.com', '100785343700416585101', NULL, NULL, NULL, '2022-08-04 07:09:09', '2022-08-04 07:09:09');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(13, 'World Best Developer', 'bestsdevelopers@gmail.com', NULL, NULL, '2022-08-12 07:39:06', '2022-08-12 07:39:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_details`
+--
+
+CREATE TABLE `user_details` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `google_id` varchar(255) DEFAULT NULL,
+  `google_token` varchar(255) DEFAULT NULL,
+  `facebook_id` varchar(255) DEFAULT NULL,
+  `facebook_token` varchar(255) DEFAULT NULL,
+  `insagram_id` varchar(255) DEFAULT NULL,
+  `insagram_token` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_details`
+--
+
+INSERT INTO `user_details` (`id`, `user_id`, `google_id`, `google_token`, `facebook_id`, `facebook_token`, `insagram_id`, `insagram_token`, `created_at`, `updated_at`) VALUES
+(7, 13, '100785343700416585101', 'ya29.A0AVA9y1uhdhH39OEaCnNpFhUI09cxS5TMKY9oXZe8Do_wgI50X-NOZKUUceYz7l8aaOX16x-9tYVxBcAlI7GeU4yNde2DAoe4LzrmW4ewQAdFZ10rcF1xYlDgFlt8IBr-OQf3yr-DrvBpTcMZh2lVB6WgPBv4aCgYKATASATASFQE65dr8FGh6Y_vMw_luD9OHrwJmag0163', '114975144641411', 'EAALGlVujqVEBAIayoZC2wOL3WWZAzuI7C3cHeZBzWWBbj0oh29YJ9RwETY0RzaZBXZCYZB63G5dltZAwnO8OC2ZC1n14pY3yM4GyDdnxFjGXFTqsrYNm3aTTEvodHTzF91SjNvPojslCPPaTws8dUjLr6ydQ7nByUaElPBON0643c3gZBLkwrmTp8CZAueJ1zI6sWGULWc37y48H9I6m6JNgpz3YzDOyII1GRJEccz8xyxocf4VncfWYDZB', NULL, NULL, '2022-08-12 07:39:06', '2022-08-12 07:40:09');
 
 --
 -- Indexes for dumped tables
@@ -191,6 +215,13 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `user_details`
+--
+ALTER TABLE `user_details`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -222,7 +253,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `user_details`
+--
+ALTER TABLE `user_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

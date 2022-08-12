@@ -21,6 +21,7 @@
             <li><a href="{{ route('orderPage') }}">My Orders</a></li>
             <li><a href="{{ route('authorizePage') }}">Add New Order</a></li>
             <li><a href="{{ route('user_logout') }}">Logout</a></li>
+            <li><a href="{{ route('ChasePage') }}">Chase</a></li>
         </ul>
     </div>
 </nav>

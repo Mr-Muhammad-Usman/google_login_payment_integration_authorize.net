@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserDetailModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -17,23 +19,56 @@ class GoogleController extends Controller
     public function getGoogleData()
     {
         $data=Socialite::driver('google')->stateless()->user();
-        $user=User::where('google_id',$data->id)->first();
+//        dd($data);
+        $user=UserDetailModel::where('google_id',$data->id)->first();
         if ($user)
         {
+            $userDedail=UserDetailModel::where('google_id',$data->id)->first();
+            $userDedail->google_token=$data->token;
+            $userDedail->save();
+            $user=User::where('id',$user->user_id)->first();
             Auth::login($user);
-//            return "Data Found login Sucessful";
             return redirect()->route('authorizePage');
         }
         else
         {
-            $user=new User();
-            $user->name=$data->name;
-            $user->email=$data->email;
-            $user->google_id=$data->id;
-            $user->save();
-            Auth::login($user);
-//            return "Data Not Found login Sucessful";
-            return redirect()->route('authorizePage');
+            $user=User::where('email',$data->email)->first();
+            if($user)
+            {
+                $checkID=UserDetailModel::where('user_id',$user->id)->first();
+                if ($checkID)
+                {
+                    $userDedail=UserDetailModel::where('user_id',$user->id)->first();
+                    $userDedail->google_id=$data->id;
+                    $userDedail->google_token=$data->token;
+                    $userDedail->save();
+                }
+                else
+                {
+                    $userDedail=new UserDetailModel();
+                    $userDedail->user_id=$user->id;
+                    $userDedail->google_id=$data->id;
+                    $userDedail->google_token=$data->token;
+                    $userDedail->save();
+                }
+                Auth::login($user);
+                return redirect()->route('authorizePage');
+            }
+            else
+            {
+                $user=new User();
+                $user->name=$data->name;
+                $user->email=$data->email;
+                $user->save();
+
+                $userDedail=new UserDetailModel();
+                $userDedail->user_id=$user->id;
+                $userDedail->google_id=$data->id;
+                $userDedail->google_token=$data->token;
+                $userDedail->save();
+                Auth::login($user);
+                return redirect()->route('authorizePage');
+            }
         }
     }
 
@@ -92,5 +127,65 @@ class GoogleController extends Controller
     public function index()
     {
         return view('Login');
+    }
+
+    public function redirectFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+    public function getfacebookData()
+    {
+        $data=Socialite::driver('facebook')->stateless()->user();
+//        dd($data->id);
+        $user=UserDetailModel::where('facebook_id',$data->id)->first();
+        if ($user)  
+        {
+            $userDedail=UserDetailModel::where('facebook_id',$data->id)->first();
+            $userDedail->facebook_token=$data->token;
+            $userDedail->save();
+            $user=User::where('id',$user->user_id)->first();
+            Auth::login($user);
+            return redirect()->route('authorizePage');
+        }
+        else
+        {
+            $user=User::where('email',$data->email)->first();
+            if($user)
+            {
+                $checkID=UserDetailModel::where('user_id',$user->id)->first();
+                if ($checkID)
+                {
+                    $userDedail=UserDetailModel::where('user_id',$user->id)->first();
+                    $userDedail->facebook_id=$data->id;
+                    $userDedail->facebook_token=$data->token;
+                    $userDedail->save();
+                }
+                else
+                {
+                    $userDedail=new UserDetailModel();
+                    $userDedail->user_id=$user->id;
+                    $userDedail->facebook_id=$data->id;
+                    $userDedail->facebook_token=$data->token;
+                    $userDedail->save();
+                }
+                Auth::login($user);
+                return redirect()->route('authorizePage');
+            }
+            else
+            {
+                $user=new User();
+                $user->name=$data->name;
+                $user->email=$data->email;
+                $user->save();
+
+                $userDedail=new UserDetailModel();
+                $userDedail->user_id=$user->id;
+                $userDedail->facebook_id=$data->id;
+                $userDedail->facebook_token=$data->token;
+                $userDedail->save();
+                Auth::login($user);
+                return redirect()->route('authorizePage');
+            }
+        }
     }
 }
