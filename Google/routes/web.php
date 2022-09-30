@@ -29,7 +29,7 @@ Route::get('login/instagram/callback', 'Auth\GoogleController@instagramProviderC
 Route::get('/facebook',[GoogleController::class,'redirectfacebook'])->name('redirectfacebook');
 Route::get('/facebook/callback',[GoogleController::class,'getfacebookData'])->name('facebookData');
 
-
+Route::get('/instagram/Gallery',[GoogleController::class,'instagramGallery'])->name('instagramGallery');
 
 Route::group(['middleware'=>['userProtect']],function (){
     Route::get('Authorize-Page',[PaymentController::class,'authorizePage'])->name('authorizePage');

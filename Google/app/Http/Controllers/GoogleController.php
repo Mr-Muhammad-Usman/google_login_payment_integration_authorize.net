@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use GuzzleHttp\Client;
+use Phpfastcache\Helper\Psr16Adapter;
+ use InstagramScraper\Instagram;
 
 class GoogleController extends Controller
 {
@@ -138,7 +140,7 @@ class GoogleController extends Controller
         $data=Socialite::driver('facebook')->stateless()->user();
 //        dd($data->id);
         $user=UserDetailModel::where('facebook_id',$data->id)->first();
-        if ($user)  
+        if ($user)
         {
             $userDedail=UserDetailModel::where('facebook_id',$data->id)->first();
             $userDedail->facebook_token=$data->token;
@@ -187,5 +189,23 @@ class GoogleController extends Controller
                 return redirect()->route('authorizePage');
             }
         }
+    }
+    public function instagramGallery()
+    {
+        $instagram = \InstagramScraper\Instagram::withCredentials(new \GuzzleHttp\Client(), env('INSTAGRAM_ID'), env('INSTAGRAM_PASSWORD'), new Psr16Adapter('Files'));
+        $instagram->login(); // will use cached session if you want to force login $instagram->login(true)
+        $instagram->saveSession();  //DO NOT forget this in order to save the session, otherwise have no sense
+        $account = $instagram->getAccount('sanamjan4795');
+        dd($account);
+
+        $accountMedias = $account->getMedias();
+        foreach ($accountMedias as $key => $accountMedia) {
+            $images[$key] = str_replace("&amp;", "&", $accountMedia->getimageHighResolutionUrl());
+            $path = $images[$key];
+            $imageName = $key . '.png';
+            $img = public_path('insta/images/') . $imageName;
+            file_put_contents($img, file_get_contents($path));
+        }
+        return view('gallery', compact('images'));
     }
 }

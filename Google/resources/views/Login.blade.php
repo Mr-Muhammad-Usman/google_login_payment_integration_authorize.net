@@ -144,15 +144,16 @@
             </div>
 
             <div class="col">
-                <a href="{{ route('instagramlogin') }}" class="fb btn">
+                <a href="{{ route('instagramlogin') }}" class="twitter btn">
                     <i class="fa fa-instagram fa-fw"></i> Login with Instagram
                 </a>
                 <a href="{{ route('redirectfacebook') }}" class="fb btn">
                     <i class="fa fa-facebook fa-fw"></i> Login with facebook
                 </a>
-                <a href="#" class="twitter btn">
-                    <i class="fa fa-twitter fa-fw"></i> Login with Twitter
-                </a>
+{{--                <a href="#" class="twitter btn">--}}
+{{--                    <i class="fa fa-twitter fa-fw"></i> Login with Twitter--}}
+{{--                </a>--}}
+
                 <a href="{{ route('redirectGoogle') }}" class="google btn"><i class="fa fa-google fa-fw">
                     </i> Login with Google+
                 </a>
